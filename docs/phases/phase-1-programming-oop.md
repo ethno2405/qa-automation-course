@@ -284,18 +284,85 @@ Use the principles to make decisions, not as strict rules. Small scripts do not 
 
 ### 1.13 Projects, dependencies, and virtual environments
 
-- A **virtual environment** is a separate set of packages for one project. Projects then do not break each other.
-- `uv` makes and manages it:
+**The problems that these tools solve:**
+
+- A **dependency** is a package that your code needs, for example `requests` or `pytest`. Packages come from the Python Package Index (PyPI).
+- Two projects can need different versions of the same package. A **virtual environment** is a separate directory with its own Python packages for one project, usually `.venv/`. Projects then do not break each other, and you do not change the Python of the operating system.
+- A test that passes today must pass next month with the same packages. A **lock file** records the exact version of each package, also of the packages that your packages need (the transitive dependencies).
+
+**`uv`, the tool of this course:**
+
+- `uv` is one tool for Python versions, virtual environments, dependencies, and lock files. Astral (the company that makes ruff) makes it. It is fast, and it replaces several older tools.
+- `uv` still has 0.x versions. It changes faster than the older tools, and some options change between versions. Read the documentation of your version (`uv help <command>`).
+- Basic use:
 
   ```sh
   uv init --package shoplib     # make a project with src/ layout
   cd shoplib
-  uv add --dev pytest ruff mypy # add development dependencies
-  uv run pytest                 # run in the virtual environment
+  uv add requests               # add a dependency of the code
+  uv add --dev pytest ruff mypy # add development dependencies (only for development and tests)
+  uv run pytest                 # make or update .venv/ if necessary, then run the command in it
+  uv sync --locked              # install exactly the versions in uv.lock (for CI and test hosts)
+  uv python install 3.13        # install a Python version for uv
+  uvx ruff check                # run a tool once, without adding it to the project
   ```
 
 - `pyproject.toml` lists the dependencies and the tool settings. `uv.lock` records the exact versions. Commit both. Do not commit `.venv/`.
-- Pin the versions through the lock file, so that a test run today and next month uses the same packages.
+- With `uv run`, you do not activate the environment. `uv` finds the project and its `.venv/` itself.
+
+**The older tools:**
+
+Most existing projects use other tools. You must be able to work with them, because you join the project of a team, and the team decides the tools.
+
+| Tool | Purpose | Typical commands | Files |
+|---|---|---|---|
+| `venv` (part of Python) | Make a virtual environment | `python3 -m venv .venv`, then `source .venv/bin/activate` (Linux, macOS) or `.venv\Scripts\activate` (Windows), and `deactivate` | `.venv/` |
+| `pip` (part of Python) | Install packages into the active environment | `pip install requests`, `pip install -r requirements.txt`, `pip freeze > requirements.txt`, `pip list` | `requirements.txt` |
+| pip-tools | Make a pinned `requirements.txt` from a short list | `pip-compile requirements.in`, `pip-sync requirements.txt` | `requirements.in`, `requirements.txt` |
+| Poetry | Projects, dependencies, lock file, virtual environments | `poetry install`, `poetry add requests`, `poetry run pytest` | `pyproject.toml`, `poetry.lock` |
+| Pipenv | Dependencies and virtual environments | `pipenv install`, `pipenv run pytest` | `Pipfile`, `Pipfile.lock` |
+| Hatch, PDM | Projects and environments (two more project tools) | `hatch run test`, `pdm install` | `pyproject.toml`, `pdm.lock` |
+| pyenv | Install and select Python versions | `pyenv install 3.13`, `pyenv local 3.13` | `.python-version` |
+| pipx | Install command-line tools in their own environments | `pipx install ruff`, `pipx run ruff` | — |
+| conda | Environments and packages, also non-Python packages. Common in data science. | `conda env create -f environment.yml`, `conda activate <name>` | `environment.yml` |
+
+**Find the tool of a project.** Look at the files in the root directory of the project:
+
+| File | Tool |
+|---|---|
+| `uv.lock` | uv |
+| `poetry.lock` | Poetry |
+| `Pipfile.lock` | Pipenv |
+| `pdm.lock` | PDM |
+| `requirements.txt` (and maybe `requirements.in`) | pip (and maybe pip-tools) |
+| `environment.yml` | conda |
+| `setup.py` or `setup.cfg`, without `pyproject.toml` | An old project that uses setuptools directly |
+
+Also read the `README.md` and the CI configuration of the project: they show the commands that the team really uses.
+
+**The same tasks with pip and with uv:**
+
+| Task | pip and venv | uv |
+|---|---|---|
+| Make an environment | `python3 -m venv .venv` | Automatic, or `uv venv` |
+| Activate it | `source .venv/bin/activate` | Not necessary with `uv run` |
+| Add a package | `pip install requests`, then add it to `requirements.txt` by hand | `uv add requests` (updates `pyproject.toml` and `uv.lock`) |
+| Install all packages | `pip install -r requirements.txt` | `uv sync` |
+| Record the exact versions | `pip freeze > requirements.txt` (records all packages of the environment, also packages that you installed only to try them) | `uv lock` (records only what `pyproject.toml` needs) |
+| Run the tests | `pytest` (in the active environment) | `uv run pytest` |
+
+**uv in a project that uses `requirements.txt`:**
+
+- `uv` has a pip-compatible interface. It works without a change to the project: `uv venv`, then `uv pip install -r requirements.txt`. Use it when a team uses pip, but you want the speed of `uv` on your computer.
+- To move a `requirements.txt` project to `uv`: `uv init`, then `uv add -r requirements.txt`.
+- To give a `requirements.txt` file to a tool or a team that needs one: `uv export --format requirements.txt > requirements.txt`. (`uv export` can also write `pylock.toml`, the standard lock file format of PEP 751.)
+
+**Rules:**
+
+- Use the tool that the project already uses. Do not change the tools of a team project without the agreement of the team.
+- Commit the dependency list and the lock file. Do not commit the virtual environment.
+- Never install project packages into the Python of the operating system (`sudo pip install`). Newer Linux distributions block this on purpose ("externally-managed-environment").
+- The course shop uses the simple form: a `requirements.txt` with exact versions (`sut/requirements.txt`), and `pip install -r requirements.txt` in its `Dockerfile`. A container does not need a virtual environment: the container itself keeps the packages separate from all other software.
 
 ## Exercises
 
