@@ -174,7 +174,8 @@ class ShopApi:
 
   @cache
   def openapi(base_url: str) -> dict[str, Any]:
-      return requests.get(f"{base_url}/openapi.json", timeout=10).json()
+      spec: dict[str, Any] = requests.get(f"{base_url}/openapi.json", timeout=10).json()
+      return spec
 
 
   def validate(base_url: str, instance: Any, schema_name: str) -> None:

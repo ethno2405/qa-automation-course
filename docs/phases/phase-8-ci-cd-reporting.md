@@ -118,7 +118,7 @@ If the actual and expected results match but the test failed, the defect is prob
 
 ## Example: a GitHub Actions workflow
 
-GitHub Actions reads workflows only from `.github/workflows/` in the repository root. Your TAS is in `labs/tas/`, so the workflow sets the working directory. Use the current major version of each action: check the page of each action.
+GitHub Actions reads workflows only from `.github/workflows/` in the repository root. Your TAS is in `labs/tas/`, so the workflow sets the working directory. Use the current version of each action: check the releases and the tags of each action. Most actions have a tag for the major version (for example `actions/checkout@v7`) that follows the newest release of that version. Some actions publish only full version tags (for example `astral-sh/setup-uv@v10.3.0`): a short tag such as `@v10` then fails with "unable to find version". An old major version can stop working when GitHub removes an old runtime. The workflow uses a fixed runner image (`ubuntu-24.04`), not `ubuntu-latest`: the label `ubuntu-latest` moves to a new Ubuntu version from time to time, and a test environment must not change without a decision.
 
 ```yaml
 # .github/workflows/tas.yml
@@ -133,13 +133,13 @@ on:
 
 jobs:
   static-analysis:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: labs/tas
     steps:
-      - uses: actions/checkout@v5
-      - uses: astral-sh/setup-uv@v6
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10.3.0
       - run: uv sync --locked
       - run: uv run ruff check
       - run: uv run ruff format --check
@@ -147,13 +147,13 @@ jobs:
 
   tests:
     needs: static-analysis
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       SHOP_URL: http://127.0.0.1:8000
       ADMIN_PASSWORD: ${{ secrets.SHOP_ADMIN_PASSWORD }}
     steps:
-      - uses: actions/checkout@v5
-      - uses: astral-sh/setup-uv@v6
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10.3.0
       - name: Start the SUT
         working-directory: sut
         run: SUT_ADMIN_PASSWORD="$ADMIN_PASSWORD" docker compose up -d --build --wait
@@ -173,7 +173,7 @@ jobs:
         if: always()
         working-directory: sut
         run: docker compose logs --no-color > ../labs/tas/reports/sut.log
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: test-reports
