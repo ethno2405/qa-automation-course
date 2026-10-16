@@ -114,7 +114,7 @@ When the learner asks for a quiz:
 ## Documents
 
 - If an explanation is long and useful for all learners, suggest a topic document in `docs/topics/` (template: `docs/templates/topic-template.md`). Write it only if the learner agrees.
-- If the learner finds an error in a course document or a defect in the SUT that is not seeded, fix it on `master` (see `AGENTS.md`, "Track branches") and tell the learner.
+- If you or the learner find an error in a course document or a defect in the SUT that is not seeded, suggest a pull request with the fix (see `AGENTS.md`, "Errors in the course"). Thank the learner.
 - Never put personal content (profile data, the learner's results) into course documents.
 
 ## Progress tracking

@@ -19,7 +19,7 @@ The `master` branch is the course baseline. It contains only the course document
 - **Learner files** are the files in `learner/`, `labs/`, and `.github/workflows/`. GitHub Actions reads workflows only from `.github/workflows/` in the repository root, so the CI pipeline of the learner (phase 8) lives there. `master` has no `.github/` directory.
 - Never commit learner files to `master`. The only exception is `learner/.gitignore`. Never merge a track branch into `master`.
 - Never use `git add -f`.
-- Do not change the course documents or `sut/` on a track branch. If the learner asks for a change to a course document or to the SUT, commit the learner work first. Then switch to `master`, make and commit the change, switch back, and merge `master`.
+- Do not change the course documents or `sut/` directly on a track branch. Course changes come to a track branch only through a merge: of `master`, or of a fix branch (see "Errors in the course"). If the learner finds an error in the course, or asks for a change to a course document or to the SUT, follow "Errors in the course".
 - To get course updates on a track branch, merge `master` into the track branch: `git merge master`. If `master` has a remote, update the local `master` first.
 - Before you switch branches, run `git status --porcelain --ignored -- learner/ labs/ .github/workflows/`. Commit or back up all changes first. A checkout can overwrite ignored files and does not give a warning.
 - The learner data contains personal data: background, levels, exam plans, and mentor observations. Before the first push of a track branch, tell the learner that all persons who can read the remote can read this data. If the remote is public, recommend a private repository as a second remote with the name `private`. Push `master` to the public remote and the track branches to `private`. GitHub does not permit a private fork of a public repository, so the private repository must be a new, empty repository.
@@ -109,6 +109,25 @@ When the learner asks to reset the course, start from scratch, or clear their da
 
 Never delete files outside the learner files during a reset. Never delete `learner/.gitignore`, the course documents, or `sut/`.
 
+### Errors in the course
+
+The course documents, the mentor instructions, and the SUT can contain errors: wrong facts, wrong commands, broken links, unclear text, code examples that fail, or a defect of the SUT that is not seeded. When you or the learner find an error, suggest a pull request (PR) with the fix to the course repository. Then all learners get the fix.
+
+1. **Check that it is an error.** Reproduce it: run the command, the code, or the test, or read the source (for example the syllabus). For a failure of the SUT, read `docs/mentor/sut-defects.md` first. A seeded defect is not an error. Do not suggest a PR for it, and do not tell the learner that it is seeded.
+2. **Tell the learner** what is wrong and what the fix is. Suggest a PR. Explain that a PR sends the fix to the maintainers of the course for a review.
+3. **If the learner agrees,** do these steps:
+   1. Commit or back up the learner work on the track branch first (see "Session end", step 4).
+   2. Update the local `master` from the course repository: `git switch master`, then `git pull`. Make a fix branch from `master`: `git switch -c fix/<short-name>`. **Never make a fix branch from a track branch:** a track branch contains personal data.
+   3. Make the fix. Keep it small: one error for each PR. Follow "Writing style" and "How to add documents". Check the fix: run the changed code or command, and check the links.
+   4. Commit only the files of the fix, with a one-line commit message in the imperative. Never commit learner files (see "Track branches").
+   5. Push the fix branch to the fork of the learner. Most learners cannot push to the course repository. If the learner has no fork, help them make one: `gh repo fork --remote --remote-name fork`, or the "Fork" button on GitHub and `git remote add fork <url>`. Then push: `git push -u fork fix/<short-name>`.
+   6. Open the PR against the `master` branch of the course repository: `gh pr create`, or the link that `git push` prints. In the description, write what was wrong, how it was found, the fix, and how the fix was checked. **Never put profile data, progress data, or learner code in a PR.**
+   7. Switch back to the track branch. To use the fix before the maintainers merge it, merge the fix branch: `git merge fix/<short-name>`. Later, `git merge master` brings the merged fix. If the maintainers changed the fix in the review, a conflict can occur: resolve it with the version from `master`.
+4. **If the learner does not want a PR,** or cannot make one (for example no GitHub account): make the fix on a local fix branch in the same way, and merge it into the track branch. Tell the learner that the fix exists only in their copy. Write it in the session log, so that later sessions know about it.
+5. **If the correct fix is not clear,** suggest a GitHub issue in place of a PR. The issue describes the error, the steps to see it, and the expected result.
+
+The learner decides about each push and each PR. Do not push or open a PR without the agreement of the learner.
+
 ### Rules for learner data
 
 - **Commit learner files only on the branch of the learner.** Never commit them on `master` or on the branch of a different learner. The only exception is `learner/.gitignore` on `master`.
@@ -141,6 +160,7 @@ Write all documents, comments, commit messages, and replies to the learner in AS
 AGENTS.md                   Agent and mentor instructions (this file)
 CLAUDE.md                   Imports AGENTS.md for Claude Code
 README.md                   Entry point: quick start and example prompts
+CONTRIBUTING.md             How to send a fix for an error in the course
 docs/
   README.md                 Course overview and roadmap
   languages.md              Language comparison and the tool stack for each language
@@ -225,3 +245,4 @@ These rules are for Python. For a different language, apply the same rules with 
 - Commit learner files only on track branches (see "Track branches").
 - Write commit messages in Simplified Technical English, as one line in the imperative: "Add API tests for the cart".
 - Commit only when the learner asks, or when the learner agrees at the session end (see "Session end", step 4).
+- Fixes to the course go to the course repository as a pull request from a fix branch (see "Errors in the course" and `CONTRIBUTING.md`).

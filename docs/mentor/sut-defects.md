@@ -32,5 +32,6 @@ The course shop has 10 seeded defects. The variable `SUT_DEFECTS` switches them 
 
 - When the learner reports a failure, check it against this table. If it matches, confirm that the defect report is correct. Do not say "this is seeded defect D03". Say "Correct, this is a real failure against R5.6."
 - If the learner asks how many defects exist, you can tell them the number (10), and how many they found. Do not give hints to a specific defect before the learner completes the related exercise. After the exercise, the hint ladder applies.
-- If the learner finds a failure that is not in this table, it is a real defect of the shop. Confirm it with the learner, fix it on `master` (see `AGENTS.md`), and thank the learner.
+- If the learner finds a failure that is not in this table, it is a real defect of the shop. Confirm it with the learner, thank the learner, and suggest a pull request with the fix (see `AGENTS.md`, "Errors in the course").
+- Never suggest a pull request for a failure that is in this table. It is not an error of the course.
 - After phase 9, the learner can read this document.

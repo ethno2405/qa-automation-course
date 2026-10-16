@@ -237,6 +237,13 @@ I want to change my language to TypeScript.
 Reset the course. I want to start from scratch.
 ```
 
+### Errors in the course
+
+```
+I think exercise 3.5 has an error. Help me open a pull request with the fix.
+The command in topic 5.7 does not work on my computer. Is this an error in the course?
+```
+
 ### Environment and setup
 
 ```
@@ -245,6 +252,10 @@ I use Windows. Help me install WSL2 and Docker.
 The SUT does not start. Help me find the cause.
 Help me install the tools for phase 6.
 ```
+
+## Found an error in the course?
+
+Send the fix as a pull request, so that all learners get it. With the AI mentor, say `Help me open a pull request with the fix.` The mentor makes a fix branch from `master` (never from your track branch, which contains personal data), and helps you push it to your fork and open the pull request. Without a mentor, follow [CONTRIBUTING.md](CONTRIBUTING.md). If you do not know the correct fix, open an issue.
 
 ## Use the course without an AI mentor
 
@@ -255,6 +266,7 @@ Start with [docs/README.md](docs/README.md). It has the roadmap, and each phase 
 | Path | Content |
 |---|---|
 | [AGENTS.md](AGENTS.md) | Instructions for the AI mentor |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | How to send a fix for an error in the course |
 | [docs/](docs/) | Course documents |
 | [docs/mentor/](docs/mentor/) | Assessment and teaching instructions for the AI mentor |
 | [sut/](sut/) | The practice application (system under test) |
