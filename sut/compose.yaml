@@ -1,0 +1,45 @@
+# Course shop and SSH test host. See README.md.
+# Start:  docker compose up -d --build
+# Stop:   docker compose down
+name: course-shop
+
+services:
+  shop:
+    build: .
+    image: course-shop:1.0
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      SUT_DEFECTS: ${SUT_DEFECTS:-none}
+      SUT_LATENCY_MS: ${SUT_LATENCY_MS:-0}
+      SUT_SLOW_UI: ${SUT_SLOW_UI:-0}
+      SUT_TEST_MODE: ${SUT_TEST_MODE:-1}
+      SUT_LOCK_MINUTES: ${SUT_LOCK_MINUTES:-15}
+      SUT_ADMIN_PASSWORD: ${SUT_ADMIN_PASSWORD:-Admin12345}
+      SUT_OAUTH_CLIENT_ID: ${SUT_OAUTH_CLIENT_ID:-ship-bot}
+      SUT_OAUTH_CLIENT_SECRET: ${SUT_OAUTH_CLIENT_SECRET:-ShipBot-Secret-1}
+      SUT_OAUTH_TOKEN_SECONDS: ${SUT_OAUTH_TOKEN_SECONDS:-300}
+    networks:
+      shopnet:
+        ipv4_address: 172.28.0.10
+
+  testhost:
+    build: ./testhost
+    image: course-testhost:1.0
+    hostname: testhost
+    ports:
+      - "127.0.0.1:2222:22"
+    environment:
+      TESTHOST_PASSWORD: ${TESTHOST_PASSWORD:-tester}
+    volumes:
+      - ./ssh:/ssh-keys:ro
+    networks:
+      shopnet:
+        ipv4_address: 172.28.0.20
+
+networks:
+  shopnet:
+    ipam:
+      config:
+        # Change this subnet if it overlaps with a network on your computer.
+        - subnet: 172.28.0.0/24

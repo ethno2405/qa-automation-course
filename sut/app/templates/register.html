@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Register - Course Shop{% endblock %}
+{% block content %}
+<h1>Register</h1>
+{% if error %}<p class="error" role="alert" data-testid="register-error">{{ error }}</p>{% endif %}
+<form method="post" action="/register" class="form" data-testid="register-form" novalidate>
+  <label for="username">User name</label>
+  <input id="username" name="username" value="{{ form.username or '' }}" data-testid="username-input">
+  {% if errors.username %}<span class="field-error" data-testid="username-error">{{ errors.username }}</span>{% endif %}
+  <label for="password">Password</label>
+  <input id="password" name="password" type="password" data-testid="password-input">
+  {% if errors.password %}<span class="field-error" data-testid="password-error">{{ errors.password }}</span>{% endif %}
+  <label for="email">Email address</label>
+  <input id="email" name="email" value="{{ form.email or '' }}" data-testid="email-input">
+  {% if errors.email %}<span class="field-error" data-testid="email-error">{{ errors.email }}</span>{% endif %}
+  <label for="age">Age</label>
+  <input id="age" name="age" value="{{ form.age or '' }}" data-testid="age-input">
+  {% if errors.age %}<span class="field-error" data-testid="age-error">{{ errors.age }}</span>{% endif %}
+  <label class="check"><input type="checkbox" name="member" {% if form.member %}checked{% endif %} data-testid="member-checkbox"> I want to be a member (5 % member discount)</label>
+  <button type="submit" data-testid="register-button">Register</button>
+</form>
+{% endblock %}

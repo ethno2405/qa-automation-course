@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Cart - Course Shop{% endblock %}
+{% block content %}
+<h1>Cart</h1>
+{% if error %}<p class="error" role="alert" data-testid="cart-error">{{ error }}</p>{% endif %}
+<p id="cart-message" class="error" role="alert" data-testid="cart-message"></p>
+{% if cart["items"] %}
+  <table class="list" data-testid="cart-table">
+    <thead><tr><th>Title</th><th>Unit price</th><th>Quantity</th><th>Line price</th><th></th></tr></thead>
+    <tbody>
+    {% for line in cart["items"] %}
+      <tr data-testid="cart-row" data-product-id="{{ line.product_id }}">
+        <td>{{ line.title }}</td>
+        <td class="num">{{ line.unit_price }} EUR</td>
+        <td class="num" data-testid="line-quantity">{{ line.quantity }}</td>
+        <td class="num" data-testid="line-price">{{ line.line_price }} EUR</td>
+        <td><button type="button" class="remove" data-product-id="{{ line.product_id }}" data-testid="remove-button">Remove</button></td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p data-testid="empty-cart">The cart is empty.</p>
+{% endif %}
+<form method="get" action="/cart" class="coupon">
+  <label for="coupon">Coupon code</label>
+  <input id="coupon" name="coupon" value="{{ cart.coupon or '' }}" data-testid="coupon-input">
+  <button type="submit" data-testid="apply-coupon">Apply</button>
+</form>
+{% if cart.coupon_error %}<p class="error" role="alert" data-testid="coupon-error">{{ cart.coupon_error }}</p>{% endif %}
+<table class="totals" data-testid="totals">
+  <tr><th>Subtotal</th><td class="num" id="subtotal" data-testid="subtotal">{{ cart.subtotal }} EUR</td></tr>
+  <tr><th>Discount <span id="discount-name" data-testid="discount-name">{{ cart.discount_name or '' }}</span></th><td class="num" id="discount" data-testid="discount">{% if cart.discount != "0.00" %}-{% endif %}{{ cart.discount }} EUR</td></tr>
+  <tr><th>Shipping</th><td class="num" id="shipping" data-testid="shipping">{{ cart.shipping }} EUR</td></tr>
+  <tr><th>Total</th><td class="num" id="total" data-testid="total">{{ cart.total }} EUR</td></tr>
+</table>
+<form method="post" action="/checkout">
+  <input type="hidden" name="coupon" value="{{ cart.coupon or '' }}">
+  <button type="submit" data-testid="checkout-button" {% if not cart["items"] %}disabled{% endif %}>Place the order</button>
+</form>
+{% endblock %}

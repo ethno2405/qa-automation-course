@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Course Shop{% endblock %}</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body data-slow-ui="{{ 1 if slow_ui else 0 }}" data-legacy-cart="{{ 1 if legacy_cart else 0 }}">
+  <header class="top">
+    <a class="brand" href="/products" data-testid="home-link">Course Shop</a>
+    <nav>
+      <a href="/products">Catalog</a>
+      {% if user %}
+        <a href="/orders" data-testid="orders-link">Orders</a>
+        <a href="/cart" data-testid="cart-link">Cart (<span id="cart-count" data-testid="cart-count">{{ cart_count }}</span>)</a>
+        <span class="user" data-testid="current-user">{{ user.username }}</span>
+        <form method="post" action="/logout" class="inline">
+          <button type="submit" data-testid="logout-button">Log out</button>
+        </form>
+      {% else %}
+        <a href="/login" data-testid="login-link">Log in</a>
+        <a href="/register" data-testid="register-link">Register</a>
+      {% endif %}
+    </nav>
+  </header>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+  <footer>Course Shop: the practice application of the QA automation course. Not a real shop.</footer>
+  <script src="/static/app.js"></script>
+</body>
+</html>

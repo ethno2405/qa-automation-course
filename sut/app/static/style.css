@@ -1,0 +1,62 @@
+:root {
+  --text: #1f2328;
+  --muted: #59636e;
+  --line: #d1d9e0;
+  --accent: #0b5cad;
+  --ok: #1a7f37;
+  --error: #b42318;
+  --background: #ffffff;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  color: var(--text);
+  background: var(--background);
+  line-height: 1.5;
+}
+
+header.top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+header nav { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+.brand { font-weight: 700; font-size: 1.2rem; text-decoration: none; color: var(--text); }
+a { color: var(--accent); }
+main { max-width: 60rem; margin: 0 auto; padding: 1rem; }
+footer { color: var(--muted); font-size: 0.85rem; padding: 1rem; text-align: center; }
+
+.form { display: grid; gap: 0.4rem; max-width: 24rem; }
+.form button { margin-top: 0.8rem; justify-self: start; }
+.check { display: flex; gap: 0.5rem; align-items: center; margin-top: 0.5rem; }
+.inline { display: inline; }
+
+input { padding: 0.35rem 0.5rem; border: 1px solid var(--line); border-radius: 4px; font: inherit; }
+button { padding: 0.35rem 0.9rem; border: 1px solid var(--accent); border-radius: 4px; background: var(--accent); color: #fff; font: inherit; cursor: pointer; }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+header button { background: transparent; color: var(--accent); }
+
+table.list, table.totals { border-collapse: collapse; margin: 1rem 0; }
+table.list { width: 100%; }
+table.list th, table.list td, table.totals th, table.totals td { padding: 0.35rem 0.6rem; border-bottom: 1px solid var(--line); text-align: left; }
+.num { text-align: right; white-space: nowrap; }
+
+.search, .coupon, .add { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin: 1rem 0; }
+.pages { display: flex; gap: 1rem; }
+.details { display: grid; grid-template-columns: max-content 1fr; gap: 0.3rem 1rem; }
+.details dt { color: var(--muted); }
+.details dd { margin: 0; }
+.actions { display: flex; gap: 0.5rem; margin: 1rem 0; }
+
+.ok { color: var(--ok); }
+.error { color: var(--error); }
+.field-error { color: var(--error); font-size: 0.9rem; }
+.user { color: var(--muted); }

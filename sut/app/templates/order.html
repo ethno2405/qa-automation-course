@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Order {{ order.id }} - Course Shop{% endblock %}
+{% block content %}
+<h1>Order <span data-testid="order-id">{{ order.id }}</span></h1>
+{% if message %}<p class="ok" role="status" data-testid="order-message">{{ message }}</p>{% endif %}
+{% if error %}<p class="error" role="alert" data-testid="order-error">{{ error }}</p>{% endif %}
+<p>Status: <strong data-testid="order-status">{{ order.status }}</strong></p>
+<table class="list">
+  <thead><tr><th>Title</th><th>Unit price</th><th>Quantity</th></tr></thead>
+  <tbody>
+  {% for line in order.lines %}
+    <tr><td>{{ line.title }}</td><td class="num">{{ line.unit_price }} EUR</td><td class="num">{{ line.quantity }}</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+<table class="totals">
+  <tr><th>Subtotal</th><td class="num" data-testid="order-subtotal">{{ order.subtotal }} EUR</td></tr>
+  <tr><th>Discount {{ order.discount_name or '' }}</th><td class="num" data-testid="order-discount">{% if order.discount|string != "0.00" %}-{% endif %}{{ order.discount }} EUR</td></tr>
+  <tr><th>Shipping</th><td class="num" data-testid="order-shipping">{{ order.shipping }} EUR</td></tr>
+  <tr><th>Total</th><td class="num" data-testid="order-total">{{ order.total }} EUR</td></tr>
+</table>
+<div class="actions">
+  {% if order.user_id == user.id %}
+    <form method="post" action="/orders/{{ order.id }}/pay" class="inline"><button type="submit" data-testid="pay-button">Pay</button></form>
+    <form method="post" action="/orders/{{ order.id }}/cancel" class="inline"><button type="submit" data-testid="cancel-button">Cancel</button></form>
+  {% endif %}
+  {% if user.is_admin %}
+    <form method="post" action="/orders/{{ order.id }}/ship" class="inline"><button type="submit" data-testid="ship-button">Ship</button></form>
+    <form method="post" action="/orders/{{ order.id }}/deliver" class="inline"><button type="submit" data-testid="deliver-button">Deliver</button></form>
+  {% endif %}
+</div>
+<h2>History</h2>
+<ul data-testid="order-history">
+  {% for h in order.history %}<li>{{ h.at }}: {{ h.status }}</li>{% endfor %}
+</ul>
+<p><a href="/orders">Back to the orders</a></p>
+{% endblock %}

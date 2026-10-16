@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Log in - Course Shop{% endblock %}
+{% block content %}
+<h1>Log in</h1>
+{% if registered %}<p class="ok" role="status" data-testid="registered-message">The registration is complete. You can log in now.</p>{% endif %}
+{% if error %}<p class="error" role="alert" data-testid="login-error">{{ error }}</p>{% endif %}
+<form method="post" action="/login" class="form" data-testid="login-form">
+  <input type="hidden" name="next" value="{{ next }}">
+  <label for="username">User name</label>
+  <input id="username" name="username" value="{{ username }}" autocomplete="username" data-testid="username-input">
+  <label for="password">Password</label>
+  <input id="password" name="password" type="password" autocomplete="current-password" data-testid="password-input">
+  <button type="submit" data-testid="login-button">Log in</button>
+</form>
+<p>No account? <a href="/register">Register</a>.</p>
+{% endblock %}

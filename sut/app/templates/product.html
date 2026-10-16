@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}{{ product.title }} - Course Shop{% endblock %}
+{% block content %}
+<h1 data-testid="product-title">{{ product.title }}</h1>
+<dl class="details">
+  <dt>Author</dt><dd data-testid="product-author">{{ product.author }}</dd>
+  <dt>Year</dt><dd data-testid="product-year">{{ product.year }}</dd>
+  <dt>Price</dt><dd data-testid="product-price">{{ product.price }} EUR</dd>
+  <dt>Stock</dt><dd data-testid="product-stock">{{ product.stock }}</dd>
+</dl>
+{% if user %}
+  <div class="add">
+    <label for="quantity">Quantity</label>
+    <input id="quantity" type="number" min="1" max="10" value="1" data-testid="quantity-input">
+    <button id="add-to-cart" type="button" data-product-id="{{ product.id }}" data-testid="add-to-cart">Add to cart</button>
+  </div>
+  <p id="add-message" role="status" data-testid="add-message"></p>
+{% else %}
+  <p><a href="/login?next=/products/{{ product.id }}">Log in</a> to buy this book.</p>
+{% endif %}
+<p><a href="/products">Back to the catalog</a></p>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Orders - Course Shop{% endblock %}
+{% block content %}
+<h1>Orders</h1>
+{% if orders %}
+  <table class="list" data-testid="order-table">
+    <thead><tr><th>Order</th>{% if user.is_admin %}<th>User</th>{% endif %}<th>Status</th><th>Total</th></tr></thead>
+    <tbody>
+    {% for o in orders %}
+      <tr data-testid="order-row" data-order-id="{{ o.id }}">
+        <td><a href="/orders/{{ o.id }}">{{ o.id }}</a></td>
+        {% if user.is_admin %}<td>{{ o.user_id }}</td>{% endif %}
+        <td data-testid="order-status">{{ o.status }}</td>
+        <td class="num">{{ o.total }} EUR</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% else %}
+  <p data-testid="no-orders">You have no orders.</p>
+{% endif %}
+{% endblock %}

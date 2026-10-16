@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Catalog - Course Shop{% endblock %}
+{% block content %}
+<h1>Catalog</h1>
+<form method="get" action="/products" role="search" class="search">
+  <label for="q">Search</label>
+  <input id="q" name="q" value="{{ q }}" placeholder="Title or author" data-testid="search-input">
+  <button type="submit" data-testid="search-button">Search</button>
+</form>
+{% if error %}
+  <p class="error" role="alert" data-testid="error-message">{{ error }}</p>
+{% elif result %}
+  <p data-testid="result-count">{{ result.total }} books found.</p>
+  <table class="list" data-testid="product-table">
+    <thead><tr><th>Title</th><th>Author</th><th>Year</th><th>Price</th><th>Stock</th></tr></thead>
+    <tbody>
+    {% for p in result["items"] %}
+      <tr data-testid="product-row" data-product-id="{{ p.id }}">
+        <td><a href="/products/{{ p.id }}">{{ p.title }}</a></td>
+        <td>{{ p.author }}</td>
+        <td>{{ p.year }}</td>
+        <td class="num">{{ p.price }} EUR</td>
+        <td class="num">{{ p.stock }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  <nav class="pages" aria-label="Pages">
+    {% if result.page > 1 %}<a href="/products?q={{ q|urlencode }}&page={{ result.page - 1 }}" data-testid="previous-page">Previous</a>{% endif %}
+    <span data-testid="page-info">Page {{ result.page }} of {{ pages }}</span>
+    {% if result.page < pages %}<a href="/products?q={{ q|urlencode }}&page={{ result.page + 1 }}" data-testid="next-page">Next</a>{% endif %}
+  </nav>
+{% endif %}
+{% endblock %}

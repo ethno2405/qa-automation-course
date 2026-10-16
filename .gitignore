@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+*.egg-info/
+
+# Node, Java, .NET build output (for learners who select these languages)
+node_modules/
+target/
+build/
+.gradle/
+bin/
+obj/
+
+# Test output
+test-results/
+playwright-report/
+allure-results/
+allure-report/
+reports/
+junit*.xml
+*.log
+mutants/
+
+# SUT runtime data
+sut/data/
+*.db
+
+# Editor and tool files
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+
+# ISTQB syllabi and other vendor documents (copyright)
+syllabi/
+*.pdf
+
+# Secrets and private keys
+.env
+.env.*
+!.env.example
+*.secret
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+sut/ssh/authorized_keys
+
+# Local backups of learner data
+# learner/.gitignore ignores the learner data on master.
+learner-backup-*/
