@@ -36,7 +36,7 @@ WSL2 (Windows Subsystem for Linux, version 2) runs a real Linux kernel in a ligh
 
 - Install it with `wsl --install` in an administrator PowerShell. This installs Ubuntu by default.
 - Keep your course files in the Linux file system (for example `~/qa-automation-course`), not in `/mnt/c/...`. File access across the two systems is slow, and file permissions do not work correctly there.
-- Use VS Code with the "WSL" extension. VS Code then runs its tools inside Ubuntu.
+- You can use any text editor. If you use VS Code, install the "WSL" extension. VS Code then runs its tools inside Ubuntu.
 - Docker: install Docker Desktop with the WSL2 back end, or install Docker Engine directly in Ubuntu. Docker Desktop needs a paid subscription in large companies. Read the Docker license terms.
 - Browsers for Playwright: Playwright installs its own browsers inside Ubuntu. WSLg (included in Windows 11) shows the browser windows.
 
@@ -45,9 +45,28 @@ WSL2 (Windows Subsystem for Linux, version 2) runs a real Linux kernel in a ligh
 - Use the Terminal app (or iTerm2) with `zsh` or `bash`. Install the tools with Homebrew.
 - Docker: install Docker Desktop, OrbStack, or Colima. Read the license terms of each tool.
 - Phase 0 needs a Linux shell. Use one of these options:
-  - An Ubuntu container: `docker run -it --rm ubuntu:24.04 bash`. Good for most exercises. Data in the container is lost when it stops, unless you mount a directory.
-  - A virtual machine with Ubuntu: Multipass, UTM, or Parallels. Good for the exercises with services (`systemd`) and users.
+  - **A virtual machine with Ubuntu (recommended):** Multipass, UTM, or Parallels. All phase 0 exercises work in it. Install Docker in the virtual machine, and run the SUT there. Then all commands and addresses in the documents work as they are.
+  - **An Ubuntu container:** good for the shell exercises, but it has limits (see below).
 - On Apple silicon (M-series CPUs), use container images for `arm64`. The course SUT images build for your CPU automatically.
+
+### Limits of an Ubuntu container
+
+Start the container in the root directory of the course repository. Give it a name, and mount the repository, so that your work stays when the container stops:
+
+```sh
+docker run -it --name ubuntu-shell -v "$PWD":/course -w /course ubuntu:24.04 bash
+```
+
+Do not use `--rm`: it deletes the container and all your changes in it when it stops. To open the same container again later, run `docker start -ai ubuntu-shell`.
+
+| Limit | What to do |
+|---|---|
+| The container has no Docker. | Run the `docker` and `docker compose` commands in a second terminal on macOS. Do exercise 0.9 in the macOS terminal or in a virtual machine. |
+| The container has no graphical desktop and no browser. | Open the web pages in the browser on macOS. In the container, use `curl`. |
+| `127.0.0.1` in the container is the container itself, not your Mac. The shop is not at `http://127.0.0.1:8000` there. | Connect the container to the network of the SUT after you start the SUT: `docker network connect course-shop_shopnet ubuntu-shell`. Then, in the container, the shop is at `http://shop:8000`, and the SSH test host is `testhost`, port 22. |
+| `systemd` does not run in the container. | Do exercise 0.8 in a virtual machine. |
+| You work as `root`, and the image has no `sudo`. | Run the commands without `sudo`. Remember that a normal user needs `sudo` for them. |
+| The image is minimal. It has no `git`, `curl`, or other tools. | Install them with `apt update`, then `apt install -y git curl jq tree nano vim shellcheck`. |
 
 ## A cloud virtual machine (optional)
 

@@ -10,7 +10,7 @@ You do not need all tools on the first day. The table shows the phase where you 
 |---|---|---|
 | Git | 0 | Version control |
 | Basic shell tools: `curl`, `jq`, `tree`, `nano` or `vim`, `shellcheck` | 0 | Downloads, JSON on the command line, file trees, text editors, script checks |
-| VS Code (or a different editor) | 0 | Editor |
+| A text editor, for example VS Code | 0 | Editor |
 | `uv` and Python 3.13 or newer | 1 | Python versions, projects, virtual environments, dependencies |
 | Network tools: `iproute2`, `iputils-ping`, `traceroute`, `dnsutils`, `netcat-openbsd`, `tcpdump`, `openssh-client` | 5 | Phase 5 exercises |
 | Wireshark (optional) | 5 | Graphical packet analysis |
@@ -61,9 +61,15 @@ Log out and log in again. **Note:** members of the `docker` group have root righ
 
 On Windows, you can also install Docker Desktop with the WSL2 back end. See [environment.md](environment.md).
 
+### A text editor
+
+You can use any text editor. Examples: VS Code, PyCharm, Sublime Text, `nano`, or `vim`. The course recommends VS Code, because it is free and has good support for Python, Playwright, and WSL2.
+
+Without a graphical desktop (in a container, on a server, or through SSH), use `nano` or `vim` in the terminal. You can also edit the files on your host computer with a graphical editor, if the directory is mounted in the container or shared with the virtual machine.
+
 ### VS Code
 
-Install VS Code from code.visualstudio.com. Install these extensions:
+If you use VS Code, install it from code.visualstudio.com. Install these extensions:
 
 - **Python** and **Pylance** (Microsoft)
 - **Ruff** (Astral)
@@ -133,4 +139,4 @@ The last command must print `{"status":"ok", ...}`. See [../sut/README.md](../su
 - Install Homebrew from brew.sh. Then install the tools: `brew install git jq tree shellcheck uv`.
 - Install Docker Desktop, OrbStack, or Colima. With Colima: `brew install colima docker docker-compose`, then `colima start`.
 - Network tools: macOS has `ping`, `traceroute`, `dig`, `nc`, `ssh`, and `tcpdump`. It does not have `ip` and `ss`. Use `ifconfig`, `netstat -an`, and `lsof -i`, or run the Linux tools in an Ubuntu container.
-- macOS uses BSD versions of `sed`, `date`, and `find`. Some options are different. In phase 0, use an Ubuntu container or virtual machine. See [environment.md](environment.md).
+- macOS uses BSD versions of `sed`, `date`, and `find`. Some options are different. In phase 0, use an Ubuntu virtual machine (recommended) or an Ubuntu container. A container has limits: no Docker, no browser, and a different `127.0.0.1`. See [environment.md](environment.md), section "macOS".

@@ -218,6 +218,8 @@ exit 1
 
 Do the exercises in your Linux shell. Write the commands that you used and the results in your test journal.
 
+If you use an Ubuntu container on macOS, read the limits of the container in [../environment.md](../environment.md), section "macOS".
+
 ### Exercise 0.1: Navigation
 
 1. Show your current directory and your home directory.
@@ -283,6 +285,8 @@ Use Ubuntu, WSL2, or a virtual machine (not a container) for this exercise.
 4. Remove the package with `sudo apt remove nginx`.
 
 ### Exercise 0.9: Bash script (main project, stage 0)
+
+The script needs Docker. In an Ubuntu container on macOS, do this exercise in the macOS terminal or in a virtual machine.
 
 Write `labs/tas/scripts/start-sut.sh`:
 
