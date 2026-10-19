@@ -21,8 +21,8 @@ docker compose down               # stop and remove the containers
 |---|---|
 | `http://127.0.0.1:8000` | Web UI |
 | `http://127.0.0.1:8000/api` | REST API |
-| `http://127.0.0.1:8000/docs` | Interactive API description (OpenAPI) |
-| `http://127.0.0.1:8000/openapi.json` | The OpenAPI document |
+| `http://127.0.0.1:8000/docs` | Interactive API description (OpenAPI). It is a web page: open it in a browser. |
+| `http://127.0.0.1:8000/openapi.json` | The OpenAPI document (JSON). Use it in a terminal: `curl -s http://127.0.0.1:8000/openapi.json \| jq '.paths \| keys'` lists all endpoints. |
 | `ws://127.0.0.1:8000/api/ws/orders?token=<token>` | Order events (WebSocket) |
 | `ssh -p 2222 tester@127.0.0.1` | Test host (password `tester`) |
 

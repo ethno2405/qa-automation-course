@@ -98,7 +98,18 @@ For Java, C#, or TypeScript, ask the mentor for the matching sources. See [../la
 
 - `__init__` is the constructor. `self` is the object itself. Attributes (data) and methods (functions) belong to the object.
 - A `@dataclass` writes the constructor, the comparison, and the text form for you. Use it for classes that mainly hold data, for example test data.
-- **Common mistake:** a mutable class attribute (`items = []` in the class body) is shared by all objects. Make attributes in `__init__`.
+- **Common mistake:** a mutable class attribute (`items = []` in the class body) is shared by all objects. Make attributes in `__init__`. In a dataclass, use `field(default_factory=list)`:
+
+  ```python
+  from dataclasses import dataclass, field
+
+
+  @dataclass
+  class Cart:
+      items: list[str] = field(default_factory=list)
+  ```
+
+  `default_factory=list` calls `list()` for each new object, so each object gets its own empty list. The same rule applies to `dict` and `set`. A dataclass with `items: list[str] = []` gives a `ValueError` when Python defines the class.
 
 ### 1.6 Encapsulation
 
@@ -366,7 +377,7 @@ Also read the `README.md` and the CI configuration of the project: they show the
 
 ## Exercises
 
-Do the exercises in `labs/phase-1-programming/`. Write tests for each exercise from exercise 1.5 on. Use `uv`, pytest, ruff, and mypy.
+Do the exercises in `labs/phase-1-programming/`. Write tests for each exercise from exercise 1.5 on. Use `uv`, pytest, ruff, and mypy. Exercise 1.5 shows the minimum setup. Topics 1.11 to 1.13 explain these tools in full.
 
 ### Exercise 1.1: First programs
 
@@ -381,19 +392,53 @@ Do the exercises in `labs/phase-1-programming/`. Write tests for each exercise f
 
 ### Exercise 1.3: Collections and text
 
-1. Save a log of the course shop to a file (see phase 0, exercise 0.6).
-2. Write a program that reads the file, parses each JSON line, and prints: the number of requests for each status code, the five slowest requests, and the number of each event type.
-3. Compare the results with your shell pipeline from exercise 0.6.
+1. Make test data. The log of exercise 0.6 is small, so send more requests to the course shop first. Use `curl` or the browser. Send at least 10 requests with at least 3 different status codes, for example a list of the products, a product that does not exist, and a login with a wrong password. Write down each request and the status code that you expect.
+2. Save the log in `sut/`:
+
+   ```sh
+   docker compose logs --no-log-prefix shop > ../labs/phase-1-programming/shop.jsonl
+   ```
+
+   `.jsonl` (JSON Lines) is the usual extension for a file with one JSON object on each line. Do not use the name `shop.log`: the course `.gitignore` ignores all `*.log` files, so git does not keep them.
+3. Write the expected result for the full file before you write the program. The log contains all requests since the shop started, not only your requests. It also contains the health checks of Docker. Decide whether your program counts them, and write the reason.
+4. Write a program that reads the file, parses each JSON line, and prints: the number of requests for each status code, the five slowest requests, and the number of each event type.
+5. Compare the results with your shell pipeline from exercise 0.6.
 
 ### Exercise 1.4: Files, JSON, and exceptions
 
-1. Write a program that reads a CSV file of test users (`username,password,email,age`) and writes a JSON file with only the valid users (use your functions from exercise 1.2).
-2. Handle these errors with a clear message: the file does not exist, a line has the wrong number of fields, the age is not a number.
+1. Write a program that reads a CSV file of test users (`username,password,email,age`) and writes a JSON file with only the valid users. A valid user follows R1.2 (user name), R1.4 (password), R1.5 (email address), and R1.6 (age). The program does not check R1.3 (a unique user name).
+2. Write one function for each rule. Use `is_valid_username` from exercise 1.2. The age program of exercise 1.1 calls `input()`, so you cannot import it. Move its check into a function, for example `is_valid_age(text: str) -> bool`.
+3. Handle these errors with a clear message: the file does not exist, a line has the wrong number of fields, the age is not a number. If a line has more than one field that is not valid, give one message for each field (R1.7).
 
 ### Exercise 1.5: Classes
 
+This is the first exercise with tests. Topics 1.11 to 1.13 come later, so do this minimum setup first:
+
+1. Make the lab directory a uv project. Your existing files do not change.
+
+   ```sh
+   cd labs/phase-1-programming
+   uv init --bare --vcs none --python 3.13
+   uv add --dev pytest ruff mypy
+   ```
+
+   `--bare` makes only a `pyproject.toml`. `--vcs none` stops uv from making a second git repository in `labs/`. `uv add --dev` writes `uv.lock`. Commit `pyproject.toml` and `uv.lock`, but not `.venv/`.
+2. Add these lines at the end of `pyproject.toml`:
+
+   ```toml
+   [tool.pytest.ini_options]
+   pythonpath = ["."]
+   ```
+
+   Your test files are in `tests/`, and your modules are one directory higher. pytest puts the directory of the test file on the module search path, but not the directory above it. Without this setting, the import of your module fails with `ModuleNotFoundError`.
+3. Write one test case for code that you already have, for example `shipping_cost` from exercise 1.2, in `tests/test_shop_rules.py`. A test case is a function with a name that starts with `test_`, and a plain `assert` does the check (topic 1.12). Run `uv run pytest`.
+4. Change the expected value in the test case, and run `uv run pytest` again. The test case must fail. Then change the value back. A test case that cannot fail has no value.
+
+Then do the exercise:
+
 1. Write a `Product` dataclass and a `Catalog` class with the methods `add(product)`, `find(text)`, and `page(number, size)`. The search ignores the case (R3.3). The page rules follow R3.2.
-2. Write tests for each method: normal cases, an empty search, the last page, a page that does not exist.
+2. Write tests in `tests/test_catalog.py` for each method: normal cases, an empty search, the last page, a page that does not exist. Use the arrange, act, assert structure, and make a new `Catalog` in each test case. For a rejected value, use `with pytest.raises(ValueError):` (topic 1.12).
+3. Run the checks on the new files: `uv run pytest -v`, `uv run ruff check catalog.py tests`, and `uv run mypy --strict catalog.py tests`.
 
 ### Exercise 1.6: Encapsulation
 

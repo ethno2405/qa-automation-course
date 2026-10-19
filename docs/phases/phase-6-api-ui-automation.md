@@ -28,7 +28,7 @@ At the end of this phase, you can:
 | Brian Okken, *Python Testing with pytest*, 2nd edition | The chapters about fixtures, parametrization, and plugins |
 | Martin Fowler, "PageObject" (martinfowler.com/bliki/PageObject.html) | All |
 | Martin Fowler, "Eradicating Non-Determinism in Tests" (martinfowler.com) | All |
-| The OpenAPI document of the shop (`http://127.0.0.1:8000/docs`) | All endpoints |
+| The OpenAPI document of the shop (`http://127.0.0.1:8000/openapi.json`, or the page `http://127.0.0.1:8000/docs` in a browser) | All endpoints |
 | Playwright for Python documentation | "Network" (routes and mocks), "Screenshots", "Browsers" |
 | The documentation of `responses`, WireMock, and `websockets` | The basic usage pages |
 | RFC 6749 (OAuth 2.0), sections 1, 4.4, and 5; RFC 9700 (OAuth 2.0 Security Best Current Practice) | Overview |
