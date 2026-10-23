@@ -63,9 +63,15 @@ The number of SUT defects that the learner found and reported (phase 3 and later
 | CTAL-TAE | | | | |
 | CT-TAS | | | | |
 
+## Notes for later sessions
+
+Facts that later sessions need, for example a local fix of the course or an agreement with the learner. Remove a note when it is not necessary any more.
+
+-
+
 ## Session log
 
-Add the newest entry at the top.
+Add the newest entry at the top. Keep only the 5 newest entries. Move older entries to the top of `learner/session-log-archive.md`.
 
 ### <YYYY-MM-DD>
 

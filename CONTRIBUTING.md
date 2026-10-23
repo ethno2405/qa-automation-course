@@ -4,7 +4,7 @@ Did you find an error in the course? Thank you. Please send the fix as a pull re
 
 Errors can be wrong facts, wrong commands, broken links, unclear text, code examples that fail, or a defect of the course shop that the course does not plan. The course shop has some defects on purpose (the seeded defects). They are not errors. If you are not sure, ask your AI mentor, or open an issue.
 
-With an AI mentor, say for example: `I think exercise 3.5 has an error. Help me open a pull request with the fix.` The mentor follows `AGENTS.md`, "Errors in the course". Without a mentor, do the steps below.
+With an AI mentor, say for example: `I think exercise 3.5 has an error. Help me open a pull request with the fix.` The mentor follows `docs/mentor/course-errors.md`. Without a mentor, do the steps below.
 
 ## Steps
 

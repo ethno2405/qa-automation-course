@@ -53,7 +53,7 @@ Then open `http://127.0.0.1:8000`.
 
 ## Your data
 
-- The `learner/` directory contains `profile.md` (background, levels, environment, preferences, mentor observations) and `progress.md` (position, completed work, exams, session log).
+- The `learner/` directory contains `profile.md` (background, levels, environment, preferences, mentor observations) and `progress.md` (position, completed work, exams, notes, the newest session log entries). Older session log entries go to `session-log-archive.md`.
 - The `labs/` directory contains your code.
 - You can read and edit all files. The mentor uses the content that it finds.
 
