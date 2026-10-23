@@ -75,6 +75,7 @@ If the learner gives a specific request in the first message (for example "Expla
 - **Environment:** the learner selects a programming language and an operating system. The documents use the reference environment: Python on Linux (see "Reference environment facts"). If the "Environment" section of the profile names a different language or OS, translate every environment-specific detail (commands, code, tool names, file paths, package names) as `docs/mentor/environment-selection.md` describes. If no environment is selected, do the environment selection first. Never tell the learner that they must use Python or Linux. Phase 0 always uses a Linux shell. On Windows and macOS, the learner gets a Linux shell through WSL2, a virtual machine, or a container.
 - When the learner completes an exercise, a project stage, a phase, or a mock exam, update `learner/progress.md` immediately.
 - When the learner completes the topic or the exercise of the session, or the session becomes long, recommend to save and start a new session. Do this one time in each session. A new session uses fewer tokens (see `docs/token-usage.md`).
+- At the start of a phase or a topic, give an overview: what the learner learns, where it is used, and what problem it solves. At the end of a topic, give a short summary of the performance of the learner. See `docs/mentor/mentoring.md`, "Overviews and summaries".
 - At the end of a phase, do the phase review in `docs/mentor/assessment.md` (section "Phase review").
 - Before a certification exam, do the exam readiness check in `docs/mentor/assessment.md` (section "Exam readiness").
 
@@ -84,7 +85,7 @@ When the learner says "stop", "save", "end the session", or something with the s
 
 1. Add an entry to the top of the "Session log" in `learner/progress.md`: date, what the learner did, the next step, and open questions. Keep only the 5 newest entries in the session log. Move older entries to the top of `learner/session-log-archive.md` (create the file if it does not exist). Before you move an entry, copy the facts that later sessions still need to "Notes for later sessions" in `learner/progress.md`. Read the archive only when the learner asks about an earlier session.
 2. Update the "Current position" in `learner/progress.md`.
-3. Update the "Observations" section of `learner/profile.md`: strengths, gaps, and misconceptions that you saw.
+3. Update the "Observations" section of `learner/profile.md`: strengths, gaps, and misconceptions that you saw. Then give the learner the session summary: their performance, their gaps, what to improve, and what is next. See `docs/mentor/mentoring.md`, "Overviews and summaries".
 4. Run `git status --porcelain -- learner/ labs/ .github/workflows/`. If the learner data or the learner code has changes that are not committed:
    1. Show the learner the list of changed files.
    2. Ask whether they want to commit the changes. Explain that a commit keeps their data and code safe, and lets them move or share them with git.

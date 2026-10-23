@@ -7,7 +7,7 @@ A self-study course in software testing and test automation. You learn the testi
 - **Cost:** all tools are free. The ISTQB exams have a fee. See [docs/certification.md](docs/certification.md).
 - **Time:** approximately 10 months for phases 0–10 at 6–8 hours per week. Phase 11 is open-ended.
 
-You can use the course alone, or with an AI coding agent as your mentor. The mentor assesses your knowledge, adapts the explanations to your background, reviews your work, prepares you for the exams, and tracks your progress.
+You can use the course alone, or with an AI coding agent as your mentor. The mentor assesses your knowledge, adapts the explanations to your background, reviews your work, prepares you for the exams, and tracks your progress. At the start of each phase and topic, the mentor tells you what you learn, where it is used, and what problem it solves. At the end of each topic, session, and phase, the mentor tells you how well you did, what your gaps are, what to improve, and what is next.
 
 ## Quick start with an AI mentor
 
