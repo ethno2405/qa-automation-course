@@ -95,6 +95,7 @@ The course uses the terms of the ISTQB glossary (glossary.istqb.org). This list 
 | Testability | How easily a system can be tested: observability, controllability, architecture transparency. |
 | Testware | All work products of testing: plans, test cases, scripts, data, reports. |
 | TLS | Transport Layer Security. Encrypts a connection and proves the identity of the server with a certificate. |
+| Token (AI model) | The unit of text that an AI model reads and writes. A token is a part of a word. The usage limits and the price of an AI agent depend on the number of tokens. See [token-usage.md](token-usage.md). |
 | Traceability | The links between the test basis, test cases, test results, and defects. |
 | UDP | User Datagram Protocol. A transport protocol without connections or delivery guarantee. |
 | Visual regression testing | Testing that compares screenshots with approved baselines to find unwanted visual changes. |

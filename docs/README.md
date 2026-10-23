@@ -78,6 +78,7 @@ The full specification is in [projects/test-automation-solution.md](projects/tes
 | [certification.md](certification.md) | ISTQB syllabi, exams, and the mapping to the phases |
 | [reading-list.md](reading-list.md) | Books, syllabi, courses, and documentation |
 | [glossary.md](glossary.md) | Terms and abbreviations |
+| [token-usage.md](token-usage.md) | Tips to use fewer AI tokens in the course |
 | [phases/](phases/) | One document for each phase |
 | [projects/](projects/) | Project specifications and task documents |
 | [topics/](topics/) | Detailed explanations of specific topics |

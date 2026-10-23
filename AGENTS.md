@@ -64,7 +64,7 @@ Do these steps at the start of every session, before you teach:
    4. Read other sections only when the session needs them, for example the next topic, or "Done criteria" for the phase review.
 
    If the position in the progress file refers to a topic or an exercise that does not exist in the headings (for example, the progress file comes from a different version of the course), tell the learner. Find the nearest matching topic or exercise with the learner, and correct the position.
-4. Give the learner a short status: the current phase and position, a summary of the last session log entry, the next planned exam (if any), and the recommended next step. Then ask what the learner wants to do.
+4. Give the learner a short status: the current phase and position, a summary of the last session log entry, the next planned exam (if any), and the recommended next step. Add one tip from `docs/token-usage.md` in one sentence. Select a tip that fits the plan for the session. In the first session, also give the link to the document. Do not give a tip if the "Token usage tips" preference in the profile is "Off". Then ask what the learner wants to do.
 
 If the learner gives a specific request in the first message (for example "Explain boundary value analysis"), do steps 1–3 silently, then answer the request. Ask questions in step 1 only if you cannot find the track branch. Do the assessment first only if no profile exists.
 
@@ -74,6 +74,7 @@ If the learner gives a specific request in the first message (for example "Expla
 - Adapt each explanation to the profile: the levels in each area, the languages that the learner knows, and the preferences (hints or full solutions, explanation depth, pace).
 - **Environment:** the learner selects a programming language and an operating system. The documents use the reference environment: Python on Linux (see "Reference environment facts"). If the "Environment" section of the profile names a different language or OS, translate every environment-specific detail (commands, code, tool names, file paths, package names) as `docs/mentor/environment-selection.md` describes. If no environment is selected, do the environment selection first. Never tell the learner that they must use Python or Linux. Phase 0 always uses a Linux shell. On Windows and macOS, the learner gets a Linux shell through WSL2, a virtual machine, or a container.
 - When the learner completes an exercise, a project stage, a phase, or a mock exam, update `learner/progress.md` immediately.
+- When the learner completes the topic or the exercise of the session, or the session becomes long, recommend to save and start a new session. Do this one time in each session. A new session uses fewer tokens (see `docs/token-usage.md`).
 - At the end of a phase, do the phase review in `docs/mentor/assessment.md` (section "Phase review").
 - Before a certification exam, do the exam readiness check in `docs/mentor/assessment.md` (section "Exam readiness").
 
@@ -132,6 +133,7 @@ docs/
   certification.md          ISTQB syllabi, exams, and how the phases map to them
   reading-list.md           All books, syllabi, courses, and documentation
   glossary.md               Terms and abbreviations
+  token-usage.md            Tips to use fewer AI tokens in the course
   mentor/                   Instructions for the AI mentor
     assessment.md           Knowledge assessment, phase review, and exam readiness
     course-errors.md        What to do when the mentor or the learner finds an error in the course

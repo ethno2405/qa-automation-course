@@ -253,6 +253,10 @@ The SUT does not start. Help me find the cause.
 Help me install the tools for phase 6.
 ```
 
+## Use fewer tokens
+
+An AI agent has usage limits, or a price for each token. To use fewer tokens, keep sessions short: do one topic or one exercise in one session, then start a new session. The mentor gives you one tip at the start of each session. All tips are in [docs/token-usage.md](docs/token-usage.md).
+
 ## Found an error in the course?
 
 Send the fix as a pull request, so that all learners get it. With the AI mentor, say `Help me open a pull request with the fix.` The mentor makes a fix branch from `master` (never from your track branch, which contains personal data), and helps you push it to your fork and open the pull request. Without a mentor, follow [CONTRIBUTING.md](CONTRIBUTING.md). If you do not know the correct fix, open an issue.
